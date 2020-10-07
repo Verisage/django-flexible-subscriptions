@@ -91,6 +91,12 @@ class SubscriptionPlan(models.Model):
             'subscription expires'
         ),
     )
+    costs = models.ManyToManyField(
+        'PlanCost',
+        blank=True,
+        help_text=_('the subscription plan for these cost details'),
+        related_name='plans',
+    )
 
     class Meta:
         ordering = ('plan_name',)
@@ -118,13 +124,6 @@ class PlanCost(models.Model):
         editable=False,
         primary_key=True,
         verbose_name='ID',
-    )
-    plans = models.ManyToManyField(
-        SubscriptionPlan,
-        through='PlanCostLink',
-        blank=True,
-        help_text=_('the subscription plan for these cost details'),
-        related_name='costs',
     )
     slug = models.SlugField(
         blank=True,
@@ -237,10 +236,6 @@ class PlanCost(models.Model):
 
         return current + delta
 
-
-class PlanCostLink(models.Model):
-    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
-    cost = models.ForeignKey(PlanCost, on_delete=models.CASCADE)
 
 
 class UserSubscription(models.Model):

@@ -16,13 +16,6 @@ from subscriptions.conf import SETTINGS
 #     )
 #     extra = 0
 
-class PlanCostLinkInline(admin.TabularInline):
-    """Inline admin class for the PlanCostLink model."""
-    model = models.PlanCostLink
-    fields = (
-        'cost',
-    )
-    extra = 0
 
 
 class PlanCostAdmin(admin.ModelAdmin):
@@ -51,8 +44,9 @@ class SubscriptionPlanAdmin(admin.ModelAdmin):
         'group',
         'tags',
         'grace_period',
+        'costs',
     )
-    inlines = [PlanCostLinkInline]
+    # inlines = [PlanCostLinkInline]
     list_display = (
         'plan_name',
         'group',
